@@ -65,6 +65,15 @@ while not killer.kill_now:
                 # Unmittelbarer Verkauf:
                 #  Da kein Kursgewinn, ist der Verkauferlös steuerfrei
                 print("reward: {} {}".format(datetime.datetime.fromtimestamp(last_reward_transaction["time"]), last_reward_transaction["amount"], last_reward_transaction["asset"]))
+                if os.environ.get("ASSET_PAIR"):
+                    resp = kraken_request('/0/private/AddOrder', {
+                        "nonce": str(int(1000*time.time())),
+                        "ordertype": "market",
+                        "type": "sell",
+                        "volume": last_reward_transaction["amount"],
+                        "pair": os.environ["ASSET_PAIR]"
+                    }, api_key, api_sec)
+
         for _ in range(interval):
             if not killer.kill_now:
                 time.sleep(1)
