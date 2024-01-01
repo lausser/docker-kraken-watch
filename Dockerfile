@@ -8,5 +8,4 @@ RUN pip install requests
 
 ADD kraken.py /root
 RUN chmod 755 /root/kraken.py
-ADD VERSION /root
 CMD ["/usr/bin/tini", "-s", "python", "/root/kraken.py"]
